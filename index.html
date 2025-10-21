@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enciclopédia de Hollow Knight - A História Completa de Hallownest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIÁVEIS E ESTILOS GERAIS ===== */
+        :root {
+            --bg-primary: #1c1f23;
+            --bg-secondary: #252a30;
+            --bg-tertiary: #2d3238;
+            --text-primary: #e2e2e2;
+            --text-secondary: #bbb;
+            --accent: #a461c2;
+            --accent-hover: #b873d6;
+            --border: #333;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --header-height: 70px;
+            --sidebar-width: 280px;
+        }
+
+        .light-theme {
+            --bg-primary: #f5f5f5;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f0f0f0;
+            --text-primary: #333;
+            --text-secondary: #555;
+            --accent: #8a2be2;
+            --accent-hover: #9b3cf5;
+            --border: #ddd;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR/NAVEGAÇÃO ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-secondary);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 2px 0 10px var(--shadow);
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo h1 {
+            font-size: 1.8em;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            padding-left: 10px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 8px;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            border-radius: 5px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.2s;
+        }
+
+        .nav-links a:hover::before, .nav-links a.active::before {
+            transform: scaleY(1);
+        }
+
+        /* ===== CONTEÚDO PRINCIPAL ===== */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* ===== HUB INTERATIVO ===== */
+        .hub-section {
+            margin-bottom: 40px;
+        }
+
+        .hub-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+        }
+
+        .hub-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--accent);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .character-card {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .character-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .character-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        }
+
+        .character-info {
+            padding: 15px;
+        }
+
+        .character-info h3 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .character-info p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .character-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        /* ===== SEÇÕES DE CONTEÚDO ===== */
+        .content-section {
+            margin-bottom: 50px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+        }
+
+        .lore-box {
+            background-color: var(--bg-tertiary);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 4px 8px var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .lore-box:hover {
+            transform: translateY(-3px);
+        }
+
+        .lore-box h3 {
+            color: var(--text-primary);
+            margin-top: 0;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .lore-box p {
+            margin-bottom: 15px;
+        }
+
+        .character-details {
+            display: flex;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .character-details div {
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .character-details h4 {
+            margin-top: 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+
+        /* ===== CORES TEMÁTICAS POR PERSONAGEM ===== */
+        .radiance { border-color: #ffda79; }
+        .unn { border-color: #79ff79; }
+        .vazio { border-color: #333; }
+        .rei-palido { border-color: #f0f0f0; }
+        .dama-branca { border-color: #e8d8f0; }
+        .infeccao { border-color: #ff9a00; }
+        .hollow-knight { border-color: #888; }
+        .cavaleiro { border-color: #61a5c2; }
+        .sonhadores { border-color: #a461c2; }
+        .monomon { border-color: #5d8aa8; }
+        .lurien { border-color: #4b9cd3; }
+        .herrah { border-color: #8a2be2; }
+        .essencia { border-color: #61c2a5; }
+        .pesadelo { border-color: #e02d2d; }
+        .wyrm { border-color: #d4af37; }
+        .hornet { border-color: #e02d2d; }
+        .cidade-lagrimas { border-color: #4b9cd3; }
+        .abismo { border-color: #333; }
+        .templo-ovo { border-color: #8a2be2; }
+        .caminho-verde { border-color: #79ff79; }
+        .palacio-branco { border-color: #f0f0f0; }
+
+        /* ===== BOTÃO VOLTAR AO TOPO ===== */
+        #topo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            font-size: 1.2em;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow);
+            transition: background-color 0.3s;
+        }
+
+        #topo:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 40px 10px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            margin-top: 50px;
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .character-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .character-details {
+                flex-direction: column;
+            }
+            
+            .character-details div {
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .character-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 20px 15px;
+            }
+        }
+
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* ===== SCROLL PERSONALIZADO ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        .location-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .location-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            border-radius: 0 0 8px 8px;
+        }
+
+        .location-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .location-info div {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Hollow Knight</h1>
+                <p>Enciclopédia de Hallownest</p>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Navegação Principal</h3>
+                <ul class="nav-links">
+                    <li><a href="#hub" class="active">Hub Central</a></li>
+                    <li><a href="#deuses">Deuses Primordiais</a></li>
+                    <li><a href="#ascensao">Ascensão de Hallownest</a></li>
+                    <li><a href="#infeccao">A Infecção</a></li>
+                    <li><a href="#plano">Plano do Rei Pálido</a></li>
+                    <li><a href="#falha">A Queda</a></li>
+                    <li><a href="#cavaleiro">O Cavaleiro</a></li>
+                    <li><a href="#forcas">Outras Forças</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Personagens Principais</h3>
+                <ul class="nav-links">
+                    <li><a href="#radiance">A Radiance</a></li>
+                    <li><a href="#rei-palido">Rei Pálido</a></li>
+                    <li><a href="#dama-branca">Dama Branca</a></li>
+                    <li><a href="#hollow-knight">Hollow Knight</a></li>
+                    <li><a href="#cavaleiro">O Cavaleiro</a></li>
+                    <li><a href="#hornet">Hornet</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Locais Importantes</h3>
+                <ul class="nav-links">
+                    <li><a href="#cidade-lagrimas">Cidade das Lágrimas</a></li>
+                    <li><a href="#abismo">O Abismo</a></li>
+                    <li><a href="#templo-ovo">Templo do Ovo Negro</a></li>
+                    <li><a href="#caminho-verde">Caminho Verde</a></li>
+                    <li><a href="#palacio-branco">Palácio Branco</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            <div class="header">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i> Menu
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i> Modo Escuro
+                </button>
+            </div>
+
+            <!-- HUB INTERATIVO -->
+            <section id="hub" class="hub-section">
+                <h2 class="hub-title">Enciclopédia de Hollow Knight</h2>
+                <p style="text-align: center; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    Explore o mundo de Hallownest através desta enciclopédia interativa. Descubra a história completa, personagens fascinantes e os segredos por trás da queda deste reino outrora glorioso.
+                </p>
+                
+                <h3 style="margin-bottom: 20px; color: var(--accent);">Personagens Principais</h3>
+                <div class="character-grid">
+                    <!-- Radiance -->
+                    <div class="character-card" data-target="radiance">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/5/52/B_Radiance.png/revision/latest?cb=20170412205005')"></div>
+                        <div class="character-info">
+                            <h3>A Radiance</h3>
+                            <p>Deusa da luz e dos sonhos, anteriormente adorada pela Tribo das Mariposas.</p>
+                            <div class="character-tags">
+                                <span class="tag">Deusa</span>
+                                <span class="tag">Sonhos</span>
+                                <span class="tag">Luz</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rei Pálido -->
+                    <div class="character-card" data-target="rei-palido">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/3/35/Pale_Death.png/revision/latest?cb=20210331084135)"></div>
+                        <div class="character-info">
+                            <h3>Rei Pálido</h3>
+                            <p>O governante de Hallownest, nascido da transformação do antigo Wyrm.</p>
+                            <div class="character-tags">
+                                <span class="tag">Rei</span>
+                                <span class="tag">Wyrm</span>
+                                <span class="tag">Criador</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dama Branca -->
+                    <div class="character-card" data-target="dama-branca">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/5/55/White_Lady_Cut.png/revision/latest/scale-to-width-down/1000?cb=20180908031713')"></div>
+                        <div class="character-info">
+                            <h3>Dama Branca</h3>
+                            <p>Consorte do Rei Pálido e deusa-raiz, mãe dos Receptáculos.</p>
+                            <div class="character-tags">
+                                <span class="tag">Deusa</span>
+                                <span class="tag">Raiz</span>
+                                <span class="tag">Mãe</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hollow Knight -->
+                    <div class="character-card" data-target="hollow-knight">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/1/12/B_Hollow_Knight.png/revision/latest?cb=20170412204859')"></div>
+                        <div class="character-info">
+                            <h3>Hollow Knight</h3>
+                            <p>O Receptáculo puro escolhido para conter a Radiance.</p>
+                            <div class="character-tags">
+                                <span class="tag">Receptáculo</span>
+                                <span class="tag">Vazio</span>
+                                <span class="tag">Selador</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- O Cavaleiro -->
+                    <div class="character-card" data-target="cavaleiro">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/0/06/The_Knight_Front.png/revision/latest?cb=20190507173407')"></div>
+                        <div class="character-info">
+                            <h3>O Cavaleiro</h3>
+                            <p>O protagonista silencioso em uma missão para salvar Hallownest.</p>
+                            <div class="character-tags">
+                                <span class="tag">Protagonista</span>
+                                <span class="tag">Receptáculo</span>
+                                <span class="tag">Vazio</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hornet -->
+                    <div class="character-card" data-target="hornet">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/1/16/Hornet_Idle.png/revision/latest?cb=20181124144744')"></div>
+                        <div class="character-info">
+                            <h3>Hornet</h3>
+                            <p>Filha do Rei Pálido e Herrah, a Besta. Protetora das ruínas de Hallownest.</p>
+                            <div class="character-tags">
+                                <span class="tag">Princesa</span>
+                                <span class="tag">Protetora</span>
+                                <span class="tag">Guerreira</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 20px; color: var(--accent);">Locais Importantes</h3>
+                <div class="character-grid">
+                    <!-- Cidade das Lágrimas -->
+                    <div class="character-card" data-target="cidade-lagrimas">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/0/05/Screenshot_HK_City_of_Tears_07.png/revision/latest/scale-to-width-down/1000?cb=20190219044533')"></div>
+                        <div class="character-info">
+                            <h3>Cidade das Lágrimas</h3>
+                            <p>Capital de Hallownest, construída sob um lago eterno de chuva ácida.</p>
+                            <div class="character-tags">
+                                <span class="tag">Capital</span>
+                                <span class="tag">Chuva</span>
+                                <span class="tag">Civilização</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- O Abismo -->
+                    <div class="character-card" data-target="abismo">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/3/36/Screenshot_HK_Abyss_03.png/revision/latest/scale-to-width-down/1000?cb=20190311002056')"></div>
+                        <div class="character-info">
+                            <h3>O Abismo</h3>
+                            <p>Local de origem do Vazio, onde os Receptáculos foram criados.</p>
+                            <div class="character-tags">
+                                <span class="tag">Vazio</span>
+                                <span class="tag">Origem</span>
+                                <span class="tag">Escuridão</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Templo do Ovo Negro -->
+                    <div class="character-card" data-target="templo-ovo">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/6/6f/Screenshot_HK_Forgotten_Crossroads_05.png/revision/latest/scale-to-width-down/1000?cb=20190227234517')"></div>
+                        <div class="character-info">
+                            <h3>Templo do Ovo Negro</h3>
+                            <p>Local onde o Hollow Knight foi selado com a Radiance.</p>
+                            <div class="character-tags">
+                                <span class="tag">Selamento</span>
+                                <span class="tag">Prisão</span>
+                                <span class="tag">Sacrifício</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Caminho Verde -->
+                    <div class="character-card" data-target="caminho-verde">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/7/7f/Greenpath_South_Area.png/revision/latest/scale-to-width-down/1000?cb=20190312031257')"></div>
+                        <div class="character-info">
+                            <h3>Caminho Verde</h3>
+                            <p>Reino de Unn, deusa da natureza, com vegetação exuberante e vida.</p>
+                            <div class="character-tags">
+                                <span class="tag">Natureza</span>
+                                <span class="tag">Vida</span>
+                                <span class="tag">Unn</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Palácio Branco -->
+                    <div class="character-card" data-target="palacio-branco">
+                        <div class="character-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/3/34/White_Palace_Centre_Exit.png/revision/latest/scale-to-width-down/1000?cb=20190610153106')"></div>
+                        <div class="character-info">
+                            <h3>Palácio Branco</h3>
+                            <p>Residência do Rei Pálido, localizada em um plano dimensional diferente.</p>
+                            <div class="character-tags">
+                                <span class="tag">Rei Pálido</span>
+                                <span class="tag">Dimensional</span>
+                                <span class="tag">Poder</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO DE PERSONAGENS -->
+            <section id="personagens" class="content-section">
+                <h2 class="section-title">Personagens Principais</h2>
+
+                <!-- Radiance -->
+                <div id="radiance" class="lore-box radiance">
+                    <h3>A Radiance</h3>
+                    <p>A Radiance era uma divindade de luz e sonhos, adorada pela Tribo das Mariposas. Sua mente coletiva unia os insetos em devoção total, tirando-lhes a vontade individual. Sua luz representava ordem, pureza e união espiritual.</p>
+                    <p>Antes do surgimento do Rei Pálido, a Radiance reinava suprema sobre as mentes dos insetos. Ela existia como uma consciência coletiva que conectava todos os seres através dos sonhos, eliminando a individualidade em troca de uma existência harmoniosa, mas sem livre-arbítrio.</p>
+                    <p>Quando o Rei Pálido ofereceu inteligência e individualidade aos insetos, muitos abandonaram a adoração à Radiance. O esquecimento enfraqueceu-a, mas não a destruiu. Ela permaneceu nos sonhos, aguardando uma oportunidade para retomar seu domínio.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Sonhos, Luz, Mente Coletiva, Memória</p>
+                        </div>
+                        <div>
+                            <h4>Seguidores</h4>
+                            <p>Tribo das Mariposas, Infectados</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Templo do Ovo Negro (aprisionada)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rei Pálido -->
+                <div id="rei-palido" class="lore-box rei-palido">
+                    <h3>Rei Pálido</h3>
+                    <p>O Rei Pálido é um dos deuses primordiais de Hallownest, nascido da transformação do antigo Wyrm. Ele trouxe senciência e consciência individual aos insetos, libertando-os da mente coletiva da Radiance.</p>
+                    <p>Como governante de Hallownest, o Rei Pálido estabeleceu uma civilização avançada com leis, arte e arquitetura magnífica. Sua visão era criar um reino eterno e ordenado, livre da influência de outros deuses.</p>
+                    <p>Para combater a Radiance, ele criou os Receptáculos, seres de Vazio projetados para conter a Infecção. No entanto, sua busca pela perfeição o levou a tomar medidas cada vez mais extremas, incluindo a criação de milhares de filhos apenas para descartar aqueles considerados imperfeitos.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Ordem, Civilização, Mente, Poder Real</p>
+                        </div>
+                        <div>
+                            <h4>Criações</h4>
+                            <p>Receptáculos, Cidade das Lágrimas, Palácio Branco</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Palácio Branco</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dama Branca -->
+                <div id="dama-branca" class="lore-box dama-branca">
+                    <h3>Dama Branca</h3>
+                    <p>A Dama Branca é uma deusa-raiz e consorte do Rei Pálido. Como uma entidade de natureza vegetal, ela representa o aspecto mais orgânico e compassivo do governo de Hallownest.</p>
+                    <p>Ela concordou em participar da criação dos Receptáculos, fornecendo os "ovos" que seriam infundidos com o Vazio. No entanto, com o passar do tempo, ela começou a questionar a moralidade de suas ações e se retirou para os Jardins da Rainha.</p>
+                    <p>Apesar de sua natureza divina, a Dama Branca demonstra emoções e arrependimento, mostrando-se mais compassiva que o Rei Pálido em relação aos Receptáculos que criaram juntos.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Vida, Crescimento, Raízes, Compaixão</p>
+                        </div>
+                        <div>
+                            <h4>Parentesco</h4>
+                            <p>Mãe dos Receptáculos, Consorte do Rei Pálido</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Jardins da Rainha</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hollow Knight -->
+                <div id="hollow-knight" class="lore-box hollow-knight">
+                    <h3>Hollow Knight</h3>
+                    <p>O Hollow Knight foi o Receptáculo considerado mais puro entre milhares criados no Abismo. Ele foi escolhido para conter a Radiance dentro de si, sendo selado no Templo do Ovo Negro como solução para a Infecção.</p>
+                    <p>Considerado completamente vazio de pensamento, vontade e emoção, o Hollow Knight foi treinado e preparado para sua missão final. Ele recebeu uma arma simbólica e foi apresentado ao povo de Hallownest como seu salvador.</p>
+                    <p>No entanto, uma falha imperceptível, um vínculo de amor desenvolvido com o Rei Pálido, seu pai, permitiu que a Radiance gradualmente corrompesse sua prisão, levando ao vazamento da Infecção e à queda de Hallownest.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Origem</h4>
+                            <p>Receptáculo criado no Abismo</p>
+                        </div>
+                        <div>
+                            <h4>Missão</h4>
+                            <p>Conter a Radiance no Templo do Ovo Negro</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Templo do Ovo Negro (aprisionado)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- O Cavaleiro -->
+                <div id="cavaleiro" class="lore-box cavaleiro">
+                    <h3>O Cavaleiro</h3>
+                    <p>O Cavaleiro é o protagonista silencioso da história, um Receptáculo que escapou do Abismo antes do selamento e vagou por terras além de Hallownest. Seu retorno é guiado por um chamado instintivo da Infecção.</p>
+                    <p>Diferente do Hollow Knight, o Cavaleiro testemunhou o mundo exterior e desenvolveu habilidades únicas, mas manteve sua natureza essencialmente vazia. Sua jornada através das ruínas de Hallownest o leva a enfrentar a Infecção e decidir o destino do reino.</p>
+                    <p>O Cavaleiro tem múltiplos caminhos para resolver a crise, desde substituir o Hollow Knight como novo Receptáculo até unir-se ao Vazio para destruir a Radiance completamente.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Origem</h4>
+                            <p>Receptáculo criado no Abismo</p>
+                        </div>
+                        <div>
+                            <h4>Jornada</h4>
+                            <p>Retorno a Hallownest para conter a Infecção</p>
+                        </div>
+                        <div>
+                            <h4>Habilidades</h4>
+                            <p>Uso de Alma, Feitiços, Aprimoramentos de Ferrão</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hornet -->
+                <div id="hornet" class="lore-box hornet">
+                    <h3>Hornet</h3>
+                    <p>Hornet é a filha do Rei Pálido e Herrah, a Besta, líder das Tecelãs. Diferente dos Receptáculos, ela nasceu com vontade própria e é completamente senciente.</p>
+                    <p>Como protetora das ruínas de Hallownest, Hornet testa a força do Cavaleiro em vários encontros, assegurando-se de que ele seja digno de enfrentar os desafios à frente. Ela é uma guerreira habilidosa, usando uma agulha e linha como armas.</p>
+                    <p>Hornet representa uma ponte entre dois mundos: o reino ordenado do Rei Pálido e a sociedade tribal das Tecelãs. Sua existência foi o preço que Herrah exigiu para se tornar uma Sonhadora.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Origem</h4>
+                            <p>Filha do Rei Pálido e Herrah</p>
+                        </div>
+                        <div>
+                            <h4>Papel</h4>
+                            <p>Protetora de Hallownest, Testadora do Cavaleiro</p>
+                        </div>
+                        <div>
+                            <h4>Habilidades</h4>
+                            <p>Combate com Agulha, Tecelagem, Velocidade</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO DE LOCAIS -->
+            <section id="locais" class="content-section">
+                <h2 class="section-title">Locais Importantes</h2>
+
+                <!-- Cidade das Lágrimas -->
+                <div id="cidade-lagrimas" class="lore-box cidade-lagrimas">
+                    <h3>Cidade das Lágrimas</h3>
+                    <div class="location-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/2/2b/Screenshot_HK_City_of_Tears_01.png/revision/latest/scale-to-width-down/1000?cb=20190219044620')"></div>
+                    <p>A Cidade das Lágrimas era a capital gloriosa de Hallownest, construída sob um lago eterno de chuva ácida. Sua arquitetura impressionante e sistemas de elevadores e bondes demonstram o avanço tecnológico do reino sob o Rei Pálido.</p>
+                    <p>A cidade abrigava diversos distritos importantes, incluindo a Praça do Rei, onde os cidadãos se reuniam, e a Torre do Observador, residência de Lurien, um dos três Sonhadores.</p>
+                    <p>Com a queda de Hallownest, a cidade tornou-se um local melancólico e perigoso, com poucos habitantes restantes e muitos infectados vagando por suas ruas outrora movimentadas.</p>
+                    <div class="location-info">
+                        <div>
+                            <h4>Importância</h4>
+                            <p>Capital de Hallownest, centro da civilização</p>
+                        </div>
+                        <div>
+                            <h4>Habitantes Notáveis</h4>
+                            <p>Lurien, o Observador, Lemm, os Escribas Reais</p>
+                        </div>
+                        <div>
+                            <h4>Características</h4>
+                            <p>Chuva eterna, arquitetura avançada, elevadores</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- O Abismo -->
+                <div id="abismo" class="lore-box abismo">
+                    <h3>O Abismo</h3>
+                    <div class="location-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/c/c9/Screenshot_HK_Abyss_01.png/revision/latest/scale-to-width-down/1000?cb=20190311002056')"></div>
+                    <p>O Abismo é o local de origem do Vazio, uma força primordial de ausência e potencial. Localizado nas profundezas mais escuras de Hallownest, é aqui que o Rei Pálido criou os Receptáculos.</p>
+                    <p>O local é caracterizado por sua escuridão absoluta, com um mar de Vazio líquido e milhares de cascas vazias de Receptáculos que não foram considerados puros o suficiente. No centro do Abismo está o Coração do Vazio, a fonte primordial desta força.</p>
+                    <p>O Abismo é tanto um local de criação quanto de tragédia, representando o preço que o Rei Pálido estava disposto a pagar para salvar seu reino, a vida de incontáveis de seus próprios filhos.</p>
+                    <div class="location-info">
+                        <div>
+                            <h4>Importância</h4>
+                            <p>Origem do Vazio, local de criação dos Receptáculos</p>
+                        </div>
+                        <div>
+                            <h4>Habitantes</h4>
+                            <p>Siblings (Receptáculos imperfeitos), Sombra</p>
+                        </div>
+                        <div>
+                            <h4>Características</h4>
+                            <p>Escuridão absoluta, Vazio líquido, cascas de Receptáculos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Templo do Ovo Negro -->
+                <div id="templo-ovo" class="lore-box templo-ovo">
+                    <h3>Templo do Ovo Negro</h3>
+                    <div class="location-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/7/79/Screenshot_HK_Dreamers_06.png/revision/latest/scale-to-width-down/1000?cb=20190227234528')"></div>
+                    <p>O Templo do Ovo Negro é o local onde o Hollow Knight foi selado com a Radiance dentro de si. Este templo antigo e sagrado foi escolhido por sua conexão espiritual e capacidade de conter forças divinas.</p>
+                    <p>O templo é protegido por um selo poderoso criado pelos três Sonhadores: Monomon, Lurien e Herrah, que dormem eternamente para manter a barreira intacta. Para entrar no templo, o Cavaleiro deve quebrar este selo derrotando os Sonhadores.</p>
+                    <p>Dentro do Ovo Negro, o confronto final decide o destino de Hallownest, seja através de um novo selamento, da substituição do Hollow Knight, ou da destruição completa da Radiance.</p>
+                    <div class="location-info">
+                        <div>
+                            <h4>Importância</h4>
+                            <p>Local do selamento da Radiance, destino final do Cavaleiro</p>
+                        </div>
+                        <div>
+                            <h4>Protetores</h4>
+                            <p>Os três Sonhadores (Monomon, Lurien, Herrah)</p>
+                        </div>
+                        <div>
+                            <h4>Características</h4>
+                            <p>Arquitetura antiga, selo dos Sonhadores, Ovo Negro</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Caminho Verde -->
+                <div id="caminho-verde" class="lore-box caminho-verde">
+                    <h3>Caminho Verde</h3>
+                    <div class="location-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/d/dd/Screenshot_HK_Greenpath_02.png/revision/latest/scale-to-width-down/1000?cb=20190312031027')"></div>
+                    <p>O Caminho Verde é o reino da deusa Unn, uma área de vegetação exuberante e vida orgânica. Diferente de outras regiões de Hallownest, este local mantém sua vitalidade mesmo após a queda do reino.</p>
+                    <p>A área é caracterizada por suas plantas gigantes, musgos inteligentes e criaturas pacíficas que adoram Unn. O lago de Unn no centro do Caminho Verde é um local de poder onde a deusa pode ser contatada através dos sonhos.</p>
+                    <p>O Caminho Verde representa uma forma de existência em harmonia com a natureza, contrastando com a civilização ordenada do Rei Pálido e a mente coletiva da Radiance.</p>
+                    <div class="location-info">
+                        <div>
+                            <h4>Importância</h4>
+                            <p>Reino de Unn, santuário de vida natural</p>
+                        </div>
+                        <div>
+                            <h4>Habitantes</h4>
+                            <p>Musgadores, criaturas vegetais, adoradores de Unn</p>
+                        </div>
+                        <div>
+                            <h4>Características</h4>
+                            <p>Vegetação exuberante, lago de Unn, atmosfera serena</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Palácio Branco -->
+                <div id="palacio-branco" class="lore-box palacio-branco">
+                    <h3>Palácio Branco</h3>
+                    <div class="location-image" style="background-image: url('https://static.wikia.nocookie.net/hollowknight/images/3/34/White_Palace_Centre_Exit.png/revision/latest/scale-to-width-down/1000?cb=20190610153106')"></div>
+                    <p>O Palácio Branco é a residência dimensional do Rei Pálido, localizada em um plano de existência separado do resto de Hallownest. O palácio é acessível apenas através de portais especiais ou do Amuleto do Rei.</p>
+                    <p>O local é caracterizado por sua arquitetura imaculada, mecanismos complexos e armadilhas mortais. O palácio reflete a natureza ordenada e lógica do Rei Pálido, mas também sua paranoia e desejo de isolamento.</p>
+                    <p>Dentro do Palácio Branco estão os segredos mais profundos do Rei Pálido, incluindo seus projetos para os Receptáculos e o local onde ele eventualmente encontrou seu destino.</p>
+                    <div class="location-info">
+                        <div>
+                            <h4>Importância</h4>
+                            <p>Residência do Rei Pálido, centro de seu poder</p>
+                        </div>
+                        <div>
+                            <h4>Acesso</h4>
+                            <p>Através de portais dimensionais ou Amuleto do Rei</p>
+                        </div>
+                        <div>
+                            <h4>Características</h4>
+                            <p>Arquitetura avançada, mecanismos complexos, armadilhas</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEÇÃO DE DEUSES PRIMORDIAIS -->
+            <section id="deuses" class="content-section">
+                <h2 class="section-title">Deuses Primordiais</h2>
+
+                <!-- Radiance -->
+                <div class="lore-box radiance">
+                    <h3>A Radiance</h3>
+                    <p>A Radiance era uma divindade de luz e sonhos, adorada pela Tribo das Mariposas. Sua mente coletiva unia os insetos em devoção total, tirando-lhes a vontade individual. Sua luz representava ordem, pureza e união espiritual.</p>
+                    <p>Antes do surgimento do Rei Pálido, a Radiance reinava suprema sobre as mentes dos insetos. Ela existia como uma consciência coletiva que conectava todos os seres através dos sonhos, eliminando a individualidade em troca de uma existência harmoniosa, mas sem livre-arbítrio.</p>
+                    <p>Quando o Rei Pálido ofereceu inteligência e individualidade aos insetos, muitos abandonaram a adoração à Radiance. O esquecimento enfraqueceu-a, mas não a destruiu. Ela permaneceu nos sonhos, aguardando uma oportunidade para retomar seu domínio.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Sonhos, Luz, Mente Coletiva, Memória</p>
+                        </div>
+                        <div>
+                            <h4>Seguidores</h4>
+                            <p>Tribo das Mariposas, Infectados</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Templo do Ovo Negro (aprisionada)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unn -->
+                <div class="lore-box unn">
+                    <h3>Unn</h3>
+                    <p>Unn é uma deusa de natureza e crescimento, criadora do Caminho Verde. Sua força está na vida, na transformação e no sonho orgânico, oposto ao vazio ou à luz absoluta.</p>
+                    <p>Diferente da Radiance, Unn não busca dominar mentes, mas sim nutrir a vida em suas formas mais puras. Ela é a deusa dos musgos, plantas e criaturas que habitam as áreas mais verdes e úmidas de Hallownest.</p>
+                    <p>Seu poder se manifesta através do crescimento vegetal descontrolado e da regeneração natural. Mesmo após o declínio de Hallownest, suas criações continuam a prosperar no Caminho Verde, demonstrando sua natureza resiliente e pacífica.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Natureza, Crescimento, Vida Vegetal, Regeneração</p>
+                        </div>
+                        <div>
+                            <h4>Seguidores</h4>
+                            <p>Musgadores, Criaturas do Caminho Verde</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Caminho Verde (em estado de sonho)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vazio -->
+                <div class="lore-box vazio">
+                    <h3>O Vazio</h3>
+                    <p>O Vazio é uma força primordial sem mente, vontade ou forma — uma antítese à Radiance. Ele habita o Abismo e é a substância da qual os Receptáculos foram formados, sendo a representação da ausência e da resistência à corrupção.</p>
+                    <p>Mais do que simples escuridão, o Vazio é a completa ausência de luz, pensamento e emoção. É uma substância líquida e negra que existe abaixo de Hallownest, no local conhecido como Abismo.</p>
+                    <p>O Rei Pálido descobriu que o Vazio poderia ser moldado e controlado, usando-o para criar os Receptáculos — seres vazios que poderiam conter a Radiance sem serem corrompidos por ela.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Ausência, Vazio, Resistência, Potencial</p>
+                        </div>
+                        <div>
+                            <h4>Manifestações</h4>
+                            <p>Receptáculos, Siblings, Sombra</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>O Abismo</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wyrms -->
+                <div class="lore-box wyrm">
+                    <h3>Os Wyrms</h3>
+                    <p>Os Wyrms são seres cósmicos antigos que existiam antes do surgimento de Hallownest. Estas criaturas colossais viajavam entre reinos, possuindo conhecimento e poder além da compreensão dos insetos comuns.</p>
+                    <p>O Rei Pálido era originalmente um Wyrm que, em um ato de transformação radical, "morreu" para renascer como o governante de Hallownest. Esta metamorfose não foi um fim, mas uma evolução para uma forma mais adequada para governar.</p>
+                    <p>Além do Rei Pálido, existiam outros Wyrms, cada um com seus próprios domínios e seguidores. Sua natureza exata permanece um mistério, mas seu legado persiste através das transformações que realizaram.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Domínios de Influência</h4>
+                            <p>Conhecimento, Transformação, Poder Cósmico</p>
+                        </div>
+                        <div>
+                            <h4>Representantes</h4>
+                            <p>Rei Pálido (antigo Wyrm)</p>
+                        </div>
+                        <div>
+                            <h4>Localização</h4>
+                            <p>Entre reinos, além de Hallownest</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ASCENSÃO DE HALLOWNEST -->
+            <section id="ascensao" class="content-section">
+                <h2 class="section-title">Ascensão de Hallownest</h2>
+                
+                <div class="lore-box rei-palido">
+                    <h3>A Chegada do Rei Pálido</h3>
+                    <p>Quando o Rei Pálido chegou a Hallownest, ele encontrou um mundo de insetos sem mente coletiva, vivendo sob o domínio da Radiance. Com sua transformação do Wyrm antigo, ele trouxe consigo o dom da inteligência individual.</p>
+                    <p>O Rei Pálido ofereceu aos insetos algo que nunca tinham tido antes: identidade própria, livre-arbítrio e a capacidade de construir uma civilização. Esta oferta foi tão poderosa que muitos insetos abandonaram voluntariamente a adoração à Radiance.</p>
+                    <p>Com sua chegada, começou a Era de Ouro de Hallownest, um período de prosperidade, arte e avanço tecnológico sem precedentes no mundo dos insetos.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Transformação</h4>
+                            <p>Wyrm → Rei Pálido</p>
+                        </div>
+                        <div>
+                            <h4>Oferecimento</h4>
+                            <p>Inteligência individual, livre-arbítrio</p>
+                        </div>
+                        <div>
+                            <h4>Resultado</h4>
+                            <p>Era de Ouro de Hallownest</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box dama-branca">
+                    <h3>A União com a Dama Branca</h3>
+                    <p>A aliança entre o Rei Pálido e a Dama Branca representou a união de duas forças divinas complementares: a ordem e lógica do Rei com a vida orgânica e crescimento da Dama Branca.</p>
+                    <p>Juntos, eles governaram Hallownest estabelecendo leis, construindo cidades magníficas e criando os Cinco Grandes Cavaleiros para proteger o reino. A Cidade das Lágrimas tornou-se o coração desta nova civilização.</p>
+                    <p>Esta parceria também permitiu que o Rei Pálido acessasse conhecimentos e poderes anteriormente inalcançáveis, incluindo a capacidade de manipular o Vazio do Abismo.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Aliança</h4>
+                            <p>Rei Pálido + Dama Branca</p>
+                        </div>
+                        <div>
+                            <h4>Conquistas</h4>
+                            <p>Cidade das Lágrimas, Leis, Cavaleiros Reais</p>
+                        </div>
+                        <div>
+                            <h4>Poder Combinado</h4>
+                            <p>Acesso ao Vazio, Criação de Receptáculos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box wyrm">
+                    <h3>A Grande Civilização</h3>
+                    <p>Sob o governo do Rei Pálido, Hallownest floresceu como nunca antes. A civilização expandiu-se através de cavernas e túneis, com diferentes tribos e espécies coexistindo sob a proteção real.</p>
+                    <p>Foram estabelecidos sistemas de transporte, incluindo os bondes de Dirtmouth e os elevadores da Cidade das Lágrimas. A arte, a ciência e a filosofia prosperaram, com estudiosos como Monomon fazendo descobertas revolucionárias sobre a Essência e os sonhos.</p>
+                    <p>Esta era representou o ápice da civilização dos insetos, um testemunho do poder do Rei Pálido para criar ordem a partir do caos e dar propósito à existência anteriormente sem mente dos insetos.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Expansão</h4>
+                            <p>Tribos unificadas, território expandido</p>
+                        </div>
+                        <div>
+                            <h4>Inovações</h4>
+                            <p>Transporte, Arquitetura, Estudo dos Sonhos</p>
+                        </div>
+                        <div>
+                            <h4>Legado</h4>
+                            <p>Civilização mais avançada dos insetos</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- A INFECÇÃO -->
+            <section id="infeccao" class="content-section">
+                <h2 class="section-title">A Infecção</h2>
+
+                <div class="lore-box infeccao">
+                    <h3>O Retorno da Radiance</h3>
+                    <p>À medida que os insetos de Hallownest esqueceram a Radiance em favor do Rei Pálido, ela começou a enfraquecer. No entanto, em vez de desaparecer, ela encontrou uma nova maneira de retornar - através dos sonhos e da mente coletiva que uma vez controlou.</p>
+                    <p>A Radiance descobriu que podia infiltrar-se nos sonhos dos insetos, implantando sua luz corrompida e recuperando gradualmente o controle sobre suas mentes. Este processo começou sutilmente, com pesadelos compartilhados e comportamentos estranhos.</p>
+                    <p>À medida que sua influência crescia, uma luz laranja começou a aparecer nos olhos dos infectados, o sinal visível da corrupção da Radiance.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Método de Infecção</h4>
+                            <p>Invasão dos sonhos, Corrupção mental</p>
+                        </div>
+                        <div>
+                            <h4>Sinais Iniciais</h4>
+                            <p>Pesadelos, Comportamento estranho, Luz laranja</p>
+                        </div>
+                        <div>
+                            <h4>Alvo</h4>
+                            <p>Mentes coletivas, Memória compartilhada</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box radiance">
+                    <h3>A Luz Corrompida</h3>
+                    <p>A Infecção não era apenas uma doença física, mas uma transformação espiritual e mental. A Radiance oferecia um retorno à mente coletiva, uma promessa de união e propósito que contrastava com a solidão da individualidade.</p>
+                    <p>Aqueles completamente infectados perdiam toda a identidade pessoal, tornando-se extensões da vontade da Radiance. Eles agiam com fúria destrutiva, atacando qualquer um que não estivesse infectado.</p>
+                    <p>A Infecção também tinha propriedades físicas, transformando tecidos orgânicos e até estruturas inorgânicas em extensões de sua luz laranja. Áreas inteiras de Hallownest foram transformadas em paisagens alienígenas pela Infecção.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Natureza da Infecção</h4>
+                            <p>Espiritual, Mental e Física</p>
+                        </div>
+                        <div>
+                            <h4>Efeitos</h4>
+                            <p>Perda de identidade, Fúria, Transformação física</p>
+                        </div>
+                        <div>
+                            <h4>Propagação</h4>
+                            <p>Sonhos, Contato, Transformação ambiental</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box cavaleiro">
+                    <h3>O Colapso da Civilização</h3>
+                    <p>À medida que a Infecção se espalhava, a outrora gloriosa civilização de Hallownest começou a desmoronar. Os sistemas de transporte pararam, as cidades foram abandonadas e os cavaleiros reais sucumbiram um por um.</p>
+                    <p>Muitos insetos tentaram fugir, mas descobriram que estavam presos pelo selo do Rei Pálido que uma vez protegeu Hallownest de influências externas. Outros se trancaram em suas casas, esperando em vão que a Infecção passasse.</p>
+                    <p>O colapso foi rápido e devastador. Em pouco tempo, a grande civilização foi reduzida a ruínas habitadas por cascas vazias e criaturas corrompidas pela luz laranja da Radiance.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Queda da Civilização</h4>
+                            <p>Sistemas colapsados, Cidades abandonadas</p>
+                        </div>
+                        <div>
+                            <h4>Destino dos Habitantes</h4>
+                            <p>Fuga, Aprisionamento, Infecção</p>
+                        </div>
+                        <div>
+                            <h4>Resultado Final</h4>
+                            <p>Ruínas, Cascas vazias, Corrupção generalizada</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PLANO DO REI PÁLIDO -->
+            <section id="plano" class="content-section">
+                <h2 class="section-title">Plano do Rei Pálido</h2>
+
+                <div class="lore-box rei-palido">
+                    <h3>A Descoberta do Vazio</h3>
+                    <p>Confrontado com a crescente ameaça da Infecção, o Rei Pálido procurou uma solução que fosse à altura de um deus. Sua busca o levou ao Abismo, onde descobriu o Vazio, uma força primordial que era a antítese perfeita da Radiance.</p>
+                    <p>O Rei Pálido percebeu que o Vazio, sendo ausência pura, não poderia ser corrompido pela luz da Radiance. Ele começou a experimentar com esta substância, descobrindo que podia moldá-la e dar-lhe forma.</p>
+                    <p>Esta descoberta levou ao plano mais ambicioso do Rei Pálido: criar seres de Vazio puro que poderiam conter a Radiance sem serem corrompidos por ela.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Descoberta</h4>
+                            <p>Vazio no Abismo</p>
+                        </div>
+                        <div>
+                            <h4>Propriedade Chave</h4>
+                            <p>Incorruptibilidade, Antítese da Luz</p>
+                        </div>
+                        <div>
+                            <h4>Aplicação</h4>
+                            <p>Criação de Receptáculos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box dama-branca">
+                    <h3>A Criação dos Receptáculos</h3>
+                    <p>O Rei Pálido e a Dama Branca uniram seus poderes para criar os Receptáculos. A Dama Branca forneceu os "ovos", a base vital, enquanto o Rei Pálido os infundiu com o Vazio do Abismo.</p>
+                    <p>Milhares de Receptáculos foram criados em uma produção em massa no Abismo. Cada um era testado quanto à sua pureza, a completa ausência de vontade, mente e emoção.</p>
+                    <p>Aqueles considerados imperfeitos eram descartados, criando uma montanha de corpos no fundo do Abismo. Apenas um seria considerado suficientemente puro para a missão final.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Processo de Criação</h4>
+                            <p>Ovos da Dama Branca + Vazio do Abismo</p>
+                        </div>
+                        <div>
+                            <h4>Produção</h4>
+                            <p>Milhares de Receptáculos</p>
+                        </div>
+                        <div>
+                            <h4>Seleção</h4>
+                            <p>Teste de pureza, Descarte de imperfeitos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box hollow-knight">
+                    <h3>O Hollow Knight Perfeito</h3>
+                    <p>Entre todos os Receptáculos, um destacou-se como o mais puro, o Hollow Knight. Ele era completamente vazio, sem pensamento, vontade ou emoção, tornando-o o recipiente perfeito para a Radiance.</p>
+                    <p>O Hollow Knight foi treinado e preparado para sua missão. Ele recebeu a Espada Pura e foi apresentado ao povo de Hallownest como seu salvador.</p>
+                    <p>O plano era selar o Hollow Knight com a Radiance dentro do Templo do Ovo Negro, contendo a Infecção para sempre dentro de um ser que não poderia ser corrompido.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Seleção</h4>
+                            <p>O Receptáculo mais puro</p>
+                        </div>
+                        <div>
+                            <h4>Preparação</h4>
+                            <p>Treinamento, Espada Pura</p>
+                        </div>
+                        <div>
+                            <h4>Missão</h4>
+                            <p>Selamento no Templo do Ovo Negro</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- A QUEDA -->
+            <section id="falha" class="content-section">
+                <h2 class="section-title">A Queda</h2>
+
+                <div class="lore-box hollow-knight">
+                    <h3>A Imperfeição Invisível</h3>
+                    <p>O plano do Rei Pálido continha uma falha catastrófica que ele não previu: o Hollow Knight não era completamente vazio. Em algum momento de seu treinamento ou convivência com o Rei Pálido, ele desenvolveu um vínculo, uma fagulha de emoção ou vontade.</p>
+                    <p>Esta pequena imperfeição foi suficiente para que a Radiance encontrasse uma brecha em sua prisão. Aos poucos, ela começou a corromper o Hollow Knight de dentro para fora.</p>
+                    <p>A Infecção começou a vazar do Templo do Ovo Negro, espalhando-se novamente por Hallownest e destruindo qualquer esperança de que o selamento fosse permanente.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Falha</h4>
+                            <p>Vínculo emocional com o Rei Pálido</p>
+                        </div>
+                        <div>
+                            <h4>Consequência</h4>
+                            <p>Brecha para a Radiance</p>
+                        </div>
+                        <div>
+                            <h4>Resultado</h4>
+                            <p>Vazamento da Infecção</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box sonhadores">
+                    <h3>O Sacrifício dos Sonhadores</h3>
+                    <p>Para fortalecer o selamento enfraquecido, três figuras importantes de Hallownest ofereceram-se como Sonhadores. Monomon, o Mestre; Lurien, o Observador; e Herrah, a Besta concordaram em dormir eternamente, usando seus sonhos para fortalecer a barreira ao redor do Templo do Ovo Negro.</p>
+                    <p>Cada Sonhador representava um aspecto diferente de Hallownest e teve suas próprias razões para fazer este sacrifício. Herrah, em particular, exigiu um preço: uma filha com o Rei Pálido, que se tornaria Hornet.</p>
+                    <p>Enquanto os Sonhadores dormiam, a Infecção continuou a se espalhar, embora em um ritmo mais lento. O sacrifício deles apenas adiou o inevitável.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Sonhadores</h4>
+                            <p>Monomon, Lurien, Herrah</p>
+                        </div>
+                        <div>
+                            <h4>Sacrifício</h4>
+                            <p>Sono eterno, Sonhos como barreira</p>
+                        </div>
+                        <div>
+                            <h4>Resultado</h4>
+                            <p>Selamento temporário</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box rei-palido">
+                    <h3>O Fim do Rei Pálido</h3>
+                    <p>Com o fracasso de seu plano mestre, o Rei Pálido retirou-se para o Palácio Branco. Lá, ele enfrentou a realidade de que sua busca pela perfeição e eternidade havia condenado não apenas seu reino, mas também incontáveis de seus próprios filhos.</p>
+                    <p>O destino final do Rei Pálido permanece envolto em mistério. Alguns acreditam que ele simplesmente desapareceu, enquanto outros sugerem que ele se fundiu com o Palácio Branco ou encontrou seu fim nas mãos da Infecção que não pôde conter.</p>
+                    <p>Seja qual for o caso, com a partida do Rei Pálido, a última esperança de Hallownest desapareceu, deixando o reino à mercê da Infecção crescente.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Retirada</h4>
+                            <p>Palácio Branco</p>
+                        </div>
+                        <div>
+                            <h4>Destino</h4>
+                            <p>Desaparecimento ou morte</p>
+                        </div>
+                        <div>
+                            <h4>Legado</h4>
+                            <p>Reino condenado, Filhos sacrificados</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- O CAVALEIRO -->
+            <section id="cavaleiro" class="content-section">
+                <h2 class="section-title">O Cavaleiro</h2>
+
+                <div class="lore-box cavaleiro">
+                    <h3>O Retorno</h3>
+                    <p>O Cavaleiro é um dos Receptáculos criados no Abismo que, por acidente ou design, escapou antes do selamento. Ele vagou por terras além de Hallownest, testemunhando o mundo exterior e desenvolvendo habilidades únicas.</p>
+                    <p>Seu retorno a Hallownest não é um acidente. É guiado por um chamado instintivo, talvez da Infecção, talvez do Vazio, ou talvez de seu irmão aprisionado. Independentemente da origem, ele é atraído de volta para completar a missão para a qual foi criado.</p>
+                    <p>Ao entrar nas ruínas de Hallownest, o Cavaleiro encontra um reino à beira da destruição final, com poucos habitantes sãos restantes e a Infecção se espalhando rapidamente.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Origem</h4>
+                            <p>Receptáculo do Abismo</p>
+                        </div>
+                        <div>
+                            <h4>Jornada</h4>
+                            <p>Fuga, Viagem, Retorno</p>
+                        </div>
+                        <div>
+                            <h4>Motivação</h4>
+                            <p>Chamado instintivo, Missão inata</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box hornet">
+                    <h3>Os Encontros com Hornet</h3>
+                    <p>Em sua jornada, o Cavaleiro repeatedemente encontra Hornet, a protetora das ruínas de Hallownest. Inicialmente hostil, ela testa sua força e determinação, assegurando-se de que ele seja digno de enfrentar os desafios à frente.</p>
+                    <p>Hornet serve como uma guia não convencional, fornecendo informações cruciais e desafios necessários para o crescimento do Cavaleiro. Ela representa um elo entre o mundo ordenado do Rei Pálido e a realidade atual das ruínas.</p>
+                    <p>À medida que a jornada progride, Hornet começa a ver o Cavaleiro não como uma ameaça, mas como a última esperança para Hallownest, talvez a única entidade capaz de corrigir os erros do passado.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Papel de Hornet</h4>
+                            <p>Protetora, Testadora, Guia</p>
+                        </div>
+                        <div>
+                            <h4>Evolução do Relacionamento</h4>
+                            <p>Hostilidade → Respeito → Aliança</p>
+                        </div>
+                        <div>
+                            <h4>Importância</h4>
+                            <p>Preparação para desafios maiores</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box cavaleiro">
+                    <h3>A Jornada e o Crescimento</h3>
+                    <p>Ao explorar Hallownest, o Cavaleiro encontra diversos personagens que o auxiliam em sua jornada. Através de Quirrel, ele aprende sobre a história do reino; com a Mariposa Seer, ele descobre os segredos da Essência; e com os Mestres de Ferrão, ele aprimora suas habilidades de combate.</p>
+                    <p>O Cavaleiro adquire amuletos poderosos, aprende feitiços antigos e melhora seu ferrão, tornando-se gradualmente forte o suficiente para enfrentar os desafios que o aguardam.</p>
+                    <p>Cada área de Hallownest apresenta seus próprios perigos e segredos, contribuindo para o crescimento do Cavaleiro e preparando-o para o confronto final.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Aliados</h4>
+                            <p>Quirrel, Mariposa Seer, Mestres de Ferrão</p>
+                        </div>
+                        <div>
+                            <h4>Aquisições</h4>
+                            <p>Amuletos, Feitiços, Melhorias de Ferrão</p>
+                        </div>
+                        <div>
+                            <h4>Crescimento</h4>
+                            <p>Força, Habilidade, Compreensão</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OUTRAS FORÇAS -->
+            <section id="forcas" class="content-section">
+                <h2 class="section-title">Outras Forças</h2>
+
+                <div class="lore-box essencia">
+                    <h3>Essência e Alma</h3>
+                    <p>A Essência é o poder dos sonhos e lembranças, coletada de insetos adormecidos ou de restos de memórias poderosas. Ela pode ser refinada e usada para melhorar armas, acessar reinos dos sonhos ou desbloquear habilidades especiais.</p>
+                    <p>A Alma, por outro lado, é a energia vital que flui através de todos os seres vivos. Ela pode ser focada para realizar feitiços ofensivos ou para regenerar danos. Os insetos mais evoluídos de Hallownest aprenderam a manipular a Alma para diversos propósitos.</p>
+                    <p>Estas duas forças representam correntes espirituais complementares que permeiam o mundo dos insetos, cada uma com suas próprias aplicações e perigos.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Essência</h4>
+                            <p>Sonhos, Memórias, Melhorias</p>
+                        </div>
+                        <div>
+                            <h4>Alma</h4>
+                            <p>Energia vital, Feitiços, Cura</p>
+                        </div>
+                        <div>
+                            <h4>Manipulação</h4>
+                            <p>Focos, Refinamento, Aplicação prática</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box pesadelo">
+                    <h3>O Reino do Pesadelo</h3>
+                    <p>Além da Radiance e do Vazio, existe o Pesadelo, o domínio do Rei Grimm, que alimenta sua chama através do Ritual da Trupe. Esta força representa paixão, medo e transformação através do fogo.</p>
+                    <p>Diferente da Radiance, o Pesadelo não busca dominar ou corromper, mas sim existir em um ciclo perpétuo de renascimento. A Chama do Pesadelo é uma força distinta tanto da Luz da Radiance quanto do Vazio.</p>
+                    <p>A Trupe Grimm viaja entre reinos, realizando seu ritual e coletando a chama necessária para a transformação do Rei Grimm em uma nova versão, mantendo o ciclo eterno.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Forças do Pesademo</h4>
+                            <p>Chama do Pesadelo, Ritual da Trupe</p>
+                        </div>
+                        <div>
+                            <h4>Natureza</h4>
+                            <p>Ciclo de Renascimento, Transformação</p>
+                        </div>
+                        <div>
+                            <h4>Representantes</h4>
+                            <p>Rei Grimm, Grimmchild, Trupe Grimm</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lore-box vazio">
+                    <h3>Os Siblings e o Vazio Unificado</h3>
+                    <p>Os Siblings são os outros Receptáculos criados no Abismo que não foram escolhidos como o Hollow Knight. Eles compartilham a mesma origem do Cavaleiro e do Hollow Knight, mas permaneceram no Abismo.</p>
+                    <p>Quando o Cavaleiro retorna ao Abismo, os Siblings reconhecem sua natureza compartilhada. Em alguns finais, eles se unem ao Cavaleiro para enfrentar a Radiance, demonstrando que mesmo o Vazio pode ter uma forma de solidariedade.</p>
+                    <p>O Vazio Unificado representa a culminação do potencial do Abismo, quando todas as fragmentos do Vazio se unem em uma única vontade, capaz de enfrentar até mesmo uma divindade como a Radiance.</p>
+                    <div class="character-details">
+                        <div>
+                            <h4>Siblings</h4>
+                            <p>Receptáculos imperfeitos, Irmãos do Cavaleiro</p>
+                        </div>
+                        <div>
+                            <h4>Potencial</h4>
+                            <p>Solidariedade do Vazio, Unificação</p>
+                        </div>
+                        <div>
+                            <h4>Poder Máximo</h4>
+                            <p>Vazio Unificado, Antítese divina</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2025 - Enciclopédia Narrativa de Hollow Knight | Team Cherry</p>
+                <p>Este site é um projeto de fã e não está afiliado oficialmente com a Team Cherry.</p>
+            </footer>
+        </main>
+    </div>
+
+    <button id="topo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Tema claro/escuro
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            
+            if (document.body.classList.contains('light-theme')) {
+                themeIcon.className = 'fas fa-sun';
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i> Modo Escuro';
+            }
+        });
+
+        // Menu responsivo
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link (em dispositivos móveis)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                }
+            });
+        });
+
+        // Rolagem suave para âncoras
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Botão voltar ao topo
+        window.addEventListener('scroll', function() {
+            const topo = document.getElementById('topo');
+            topo.style.display = window.scrollY > 400 ? 'block' : 'none';
+        });
+
+        // Cards interativos
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                const targetElement = document.getElementById(target);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Destacar a seção
+                    targetElement.classList.add('fade-in');
+                    setTimeout(() => {
+                        targetElement.classList.remove('fade-in');
+                    }, 1000);
+                }
+            });
+        });
+
+        // Ativar link ativo na navegação
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.content-section, .hub-section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
